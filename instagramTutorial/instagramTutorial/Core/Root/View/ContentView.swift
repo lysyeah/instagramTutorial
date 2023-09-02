@@ -10,13 +10,15 @@ import SwiftUI
 // This is the root view of out application.
 struct ContentView: View {
     @StateObject var viewModel = ContentViewModel()
+    @StateObject var registerationViewModel = RegisterationViewModel()
     
     var body: some View {
         Group {
             if viewModel.userSession == nil {
                 LoginView()
-            }else{
-                mainTabView()
+                    .environmentObject(registerationViewModel)
+            } else if let currentUser = viewModel.currentUser {
+                MainTabView(user: currentUser)
             }
         }
     }

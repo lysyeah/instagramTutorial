@@ -9,12 +9,13 @@ import SwiftUI
 
 struct CompleteSignUpView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel : RegisterationViewModel
     
     var body: some View {
         VStack(spacing: 12){
             Spacer()
             
-            Text("Welcom to instagram")
+            Text("Welcom to instagram \(viewModel.username)")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(.top)
@@ -28,6 +29,8 @@ struct CompleteSignUpView: View {
             Button {
                 // Button으로 시작해서 NavigationLink로 썼었지만,
                 // CompleteSignUpView 에서는 Button으로 사용할 것이다.
+                Task { try await viewModel.createUser() }
+                
                 print("comeplete sign up")
             } label: {
                 Text("Complete Sign Up")

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CreateUserNameView: View {
-    @State private var userName = ""
+//    @State private var userName = ""
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel : RegisterationViewModel //11번 주석하고이거 넣음.
     
     var body: some View {
         VStack(spacing: 12){
@@ -22,7 +23,7 @@ struct CreateUserNameView: View {
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
-            TextField("Username", text: $userName )
+            TextField("Username", text: $viewModel.username )
                 .autocapitalization(.none)
                 .modifier(IGTextFieldModifier())
             NavigationLink { // Button으로 만들었던 것을 NavigationLink로 변경했다.

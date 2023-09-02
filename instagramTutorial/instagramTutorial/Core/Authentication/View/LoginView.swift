@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
+//    @State private var email = ""
+//    @State private var password = ""
+//    @StateObject var registerationViewModel = RegisterationViewModel()
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack{
@@ -24,10 +26,10 @@ struct LoginView: View {
                     .frame(width: 220, height: 100)
                 // text field
                 VStack{
-                    TextField("Endter yout email", text: $email)
+                    TextField("Endter yout email", text: $viewModel.email)
                         .autocapitalization(.none)
                         .modifier(IGTextFieldModifier())
-                    SecureField("Endter yout password", text: $password)
+                    SecureField("Endter yout password", text: $viewModel.password)
                       //.autocapitalization(.none) 기본적으로 none으로 설정되어 있다.
                         .modifier(IGTextFieldModifier())
                 }
@@ -45,7 +47,7 @@ struct LoginView: View {
                 
                 // Login
                 Button {
-                    print("Login")
+                    Task { try await viewModel.signIn() }
                 } label: {
                     Text("Log in")
                         .font(.subheadline)
@@ -92,6 +94,7 @@ struct LoginView: View {
                 // NavigationStack안에 있기 때문에 이렇게 사용한다.
                 NavigationLink {
                     AddEmailView()
+//                      .environmentObject(RegisterationViewModel)
                         .navigationBarBackButtonHidden(true)
                 } label: {
                     HStack(spacing: 5){

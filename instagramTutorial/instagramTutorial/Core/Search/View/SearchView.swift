@@ -9,19 +9,16 @@ import SwiftUI
 
 struct SearchView: View {
     @State private var searchText = ""
+    @StateObject var viewModel = SearchViewModel()
     
     var body: some View {
         NavigationStack {
             ScrollView{
                 LazyVStack(spacing: 12){
-                    ForEach(User.MockUser) { user in
+                    ForEach(viewModel.users) { user in
                         NavigationLink(value: user) { // Model/User에 Hashable Protocol 추가함. // Hashable 공부할 사항. // value.
                             HStack {
-                                Image(user.profileImageUrl ?? "") // optional로 해놨기 때문에 사진등록을 안했을 경우 어떻게 할지 정해줘야 한다.
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 40, height: 40)
-                                    .clipShape(Circle())
+                                CircularProfileImageView(user: user, size: .xsmall)
                                 VStack(alignment: .leading){
                                     Text(user.username)
                                         .fontWeight(.semibold)
